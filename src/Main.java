@@ -25,19 +25,22 @@ public class Main {
 
 
         // Matrix
-        System.out.print("MATRIX: \n");
-        Matrix firstMatrix = new Matrix(14, 3);
-        Matrix secondMatrix = new Matrix(3, 5);
-        System.out.print("MATRIX 1: \n");
-        firstMatrix.printMatrix();
-        System.out.print("MATRIX 2: \n");
-        secondMatrix.printMatrix();
-//        System.out.print("MATRIX 1 post addition: \n");
-//        firstMatrix.addMatrix(secondMatrix);
+//        System.out.print("MATRIX: \n");
+//        Matrix firstMatrix = new Matrix(14, 3);
+//        Matrix secondMatrix = new Matrix(3, 5);
+//        System.out.print("MATRIX 1: \n");
 //        firstMatrix.printMatrix();
+//        System.out.print("MATRIX 2: \n");
+//        secondMatrix.printMatrix();
+////        System.out.print("MATRIX 1 post addition: \n");
+////        firstMatrix.addMatrix(secondMatrix);
+////        firstMatrix.printMatrix();
+//
+//        Matrix multipleMatrix = new Matrix(firstMatrix, secondMatrix);
+//        System.out.print("MULTIPLIED MATRIX: \n");
+//        multipleMatrix.printMatrix();
 
-        Matrix multipleMatrix = new Matrix(firstMatrix, secondMatrix);
-        System.out.print("MULTIPLIED MATRIX: \n");
-        multipleMatrix.printMatrix();
+        NumberTool tool = new NumberTool();
+        tool.strictPrint(3);
     }
 }
