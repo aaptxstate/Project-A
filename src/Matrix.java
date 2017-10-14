@@ -54,6 +54,8 @@ class Matrix {
                     matrix[rw][col] += second.getValue(rw,col);
                 }
             }
+        }   else {
+            System.out.print("Cannot add due to: Mismatched sizes\n");
         }
     }
 
@@ -71,15 +73,15 @@ class Matrix {
     }
     public void printMatrix() {
         for (int x = 0; x <= columns; x++) {
-            System.out.print("___");
+            System.out.print("\t___");
             if (x == columns) { System.out.print('\n'); }
         }
         for (int r = 0; r < rows; r++) {
             System.out.print("| ");
             for (int c = 0; c < columns; c++) {
-                System.out.print(matrix[r][c] + " ");
+                System.out.print(matrix[r][c] + "\t");
             }
-            System.out.print(" |\n");
+            System.out.print(" \t|\n");
         }
             for (int x = 0; x <= columns; x++) {
                 System.out.print("___");

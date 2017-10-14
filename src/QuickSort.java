@@ -6,10 +6,8 @@ public class QuickSort {
 //    high = index of higher bound in split array
 //    splitIndex = index of middle value to split array into greater and lesser around
 
-    // TODO implement error handling if array is not > 1 or is not an array of ints
-    // shouldn't need any error handling for the rest of it
     public void sortThis(int array[]) {
-        if (array.length > 1) {
+        if (array.length > 0) {
             quickSort(array, 0, array.length - 1);
         }
     }
@@ -32,7 +30,7 @@ public class QuickSort {
                 bottomIndex++;
                 int temp = array[bottomIndex];
                 array[bottomIndex] = array[x];
-                array[bottomIndex] = temp;
+                array[x] = temp;
             }
         }
 
