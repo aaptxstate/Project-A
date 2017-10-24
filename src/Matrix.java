@@ -42,7 +42,7 @@ class Matrix {
             }
 
         } else {
-            System.out.print("Matrices cannot be multiplied\n");
+            System.out.println("Matrices cannot be multiplied");
         }
     }
 
@@ -55,7 +55,7 @@ class Matrix {
                 }
             }
         }   else {
-            System.out.print("Cannot add due to: Mismatched sizes\n");
+            System.out.println("Cannot add due to: Mismatched sizes");
         }
     }
 
@@ -84,7 +84,7 @@ class Matrix {
             System.out.print(" \t|\n");
         }
             for (int x = 0; x <= columns; x++) {
-                System.out.print("___");
+                System.out.print("\t___");
                 if (x == columns) { System.out.print('\n'); }
         }
     }
