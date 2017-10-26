@@ -1,0 +1,10 @@
+Java=>Drink,CS Language
+Iron=>Metal,Tool
+Pork=>Pig,Meat
+Bull=>Cow,A false statement
+Mug=>Container,To steal
+Monitor=>Screen,A supervisor
+Flavor=>Type of taste,Style
+Textbook=>Book,Precise 
+Isis=>Egyptian goddess,Terrorist group
+Drumstick=>Instrument,Ice-Cream

@@ -10,7 +10,7 @@ public class Dictionary extends LinkedList<Definition> {
                 System.out.println("\t" + queryObject.definitions[x]);
             }
         } else {
-            System.out.println("Sorry, not found.");
+            System.out.println("Sorry, '" + query + "' not found.");
         }
     }
 

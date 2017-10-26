@@ -1,27 +1,32 @@
-class Matrix {
+public class Matrix {
 
     private int rows, columns;
     private int[][] matrix;
-
+    private Throwable zeroSize = new Throwable("Error: Rows and Columns cannot be less than '1'");
     // constructor to formulate new matrix
-    // TODO Needs error handling for non int values
     Matrix(int rows, int columns) {
-        this.rows = rows;
-        this.columns = columns;
-        matrix = new int[rows][columns];
+        try {
+            if (rows < 1 || columns < 1) {
+                throw zeroSize;
+            }
+            this.rows = rows;
+            this.columns = columns;
+            matrix = new int[rows][columns];
 
-        for (int rw = 0; rw < rows; rw++) {
-            for (int col = 0; col < columns; col++) {
-                matrix[rw][col] = (int) Math.floor(Math.random() * 100);
+            for (int rw = 0; rw < rows; rw++) {
+                for (int col = 0; col < columns; col++) {
+                    matrix[rw][col] = (int) Math.floor(Math.random() * 100);
+                }
             }
         }
+        catch (Throwable zeroSize) {
+            zeroSize.printStackTrace();
+        }
+
     }
 
     // constructor for new matrix by multiplication
     // of 2 declared matrices
-    // TODO needs error handling for
-    // if first matrix cols != second matrix rows
-    // if Matrices are not passed into
     Matrix(Matrix first, Matrix second) {
         if (first.getColumns() == second.getRows()) {
             this.rows = first.getRows();
@@ -40,13 +45,19 @@ class Matrix {
                 }
 
             }
-
         } else {
             System.out.println("Matrices cannot be multiplied");
         }
     }
+    public void multiplyMatrix(Matrix multiplier) {
 
-    // TODO error handling if not same size
+        if (this.columns == multiplier.getRows()) {
+            Matrix tempMatrix = new Matrix(this, multiplier);
+            tempMatrix.printMatrix();
+        } else {
+            System.out.println("Matrices cannot be multiplied");
+        }
+    }
     public void addMatrix(Matrix second) {
         if (rows == second.getRows() && columns == second.getColumns()) {
             for (int rw = 0; rw < columns; rw++) {
@@ -66,10 +77,15 @@ class Matrix {
     public int getColumns() {
         return columns;
     }
-    // TODO error handling
-    // if no int values passed into row and col && if those ints are out of range
+
+    // TODO need something here to throw catch first if
     public int getValue(int row, int col) {
-        return matrix[row][col];
+        if (row < 0 || col < 0) {
+            System.out.println("Error: Value does not exist");
+        } else {
+            return matrix[row][col];
+        }
+        return -1;
     }
     public void printMatrix() {
         for (int x = 0; x <= columns; x++) {

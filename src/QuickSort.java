@@ -6,6 +6,7 @@ public class QuickSort {
 //    high = index of higher bound in split array
 //    splitIndex = index of middle value to split array into greater and lesser around
 
+//    TODO we need to say something about how we can make this better...
     public void sortThis(int array[]) {
         if (array.length > 0) {
             quickSort(array, 0, array.length - 1);

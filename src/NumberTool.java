@@ -1,5 +1,4 @@
 public class NumberTool {
-    // TODO error handling, negatives, out of range and pointless values
     public void strictPrint(int size) {
         printNum(0, " ", size);
     }
