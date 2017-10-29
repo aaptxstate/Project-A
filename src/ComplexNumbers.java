@@ -11,14 +11,14 @@ public class ComplexNumbers {
     }
 
     public String addition() {
-        left = d + f;
-        right = e + g;
+        left = (double)Math.round((d + f) * 100) /100;
+        right = (double)Math.round((e + g) * 100) /100;
         return left + "+" + right + "i";
     }
 
     public String multiplication() {
-        left = ((d * f) - (e * g));
-        right = ((d * g) + (e * f));
+        left = (double)Math.round(((d * f) - (e * g)) * 100) /100;
+        right = (double)Math.round(((d * g) + (e * f)) * 100) /100;
         return left + "+" + right + "i";
     }
 

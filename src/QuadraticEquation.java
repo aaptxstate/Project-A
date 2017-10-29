@@ -21,16 +21,16 @@ public class QuadraticEquation {
         calcDiscriminant();
     }
 
-    public void calcDiscriminant() {
-        discriminant = (Math.pow(b, 2) - (4 * a * c));
+    public double calcDiscriminant() {
+        return (Math.pow(b, 2) - (4 * a * c));
     }
 
     public double getRoot1() {
-        return (-b + Math.sqrt(discriminant))/(2 * a);
+        return ((-b + Math.sqrt(calcDiscriminant()))/(2 * a));
     }
 
     public double getRoot2() {
-        return (-b - Math.sqrt(discriminant))/(2 * a);
+        return ((-b - Math.sqrt(calcDiscriminant()))/(2 * a));
     }
 
     public double getLeftSide() {
@@ -38,11 +38,11 @@ public class QuadraticEquation {
     }
 
     public double getRightSide1() {
-        return (- Math.sqrt(discriminant))/(2 * a);
+        return (- Math.sqrt(-calcDiscriminant())/(2 * a));
     }
 
     public double getRightSide2() {
-        return ( Math.sqrt(discriminant))/(2 * a);
+        return ( Math.sqrt(-calcDiscriminant())/(2 * a));
     }
 
 }
