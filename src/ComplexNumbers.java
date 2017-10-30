@@ -1,5 +1,3 @@
-package com.assignmentA;
-
 public class ComplexNumbers {
     private double d, e, f, g, left, right;
 

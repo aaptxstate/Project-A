@@ -1,5 +1,3 @@
-package com.assignmentA;
-
 import java.lang.Math;
 
 public class QuadraticEquation {

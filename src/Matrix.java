@@ -60,8 +60,8 @@ public class Matrix {
     }
     public void addMatrix(Matrix second) {
         if (rows == second.getRows() && columns == second.getColumns()) {
-            for (int rw = 0; rw < columns; rw++) {
-                for (int col = 0; col < rows; col++) {
+            for (int rw = 0; rw < rows; rw++) {
+                for (int col = 0; col < columns; col++) {
                     matrix[rw][col] += second.getValue(rw,col);
                 }
             }

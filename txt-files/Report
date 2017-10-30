@@ -1,0 +1,762 @@
+Program A
+Professor Roychowdhury
+Written By
+    Arthur Patterson && Brian Pugnali
+
+
+
+Quadratic Equation Report
+	For this problem, We chose to make two classes. One class handles the parts of the quadratic equation. The other class
+	(ComplexNumbers.java) handles adding and multiplying complex numbers together. The challenges that we encountered while
+	coding this problem were mainly working with complex numbers. We had to refresh on math with complex numbers.
+	Once we got the math down, working with objects was easy. The coefficients are read in from a file and instantiated as a quadratic object.
+
+
+//Source Code
+--------
+import java.lang.Math;
+
+public class QuadraticEquation {
+
+    public double a, b, c, discriminant;
+
+    public QuadraticEquation() {
+        super();
+        a = 0;
+        b = 0;
+        c = 0;
+        discriminant = 0;
+    }
+
+    public QuadraticEquation(double coefA, double coefB, double coefC) {
+        a = coefA;
+        b = coefB;
+        c = coefC;
+        calcDiscriminant();
+    }
+
+    public double calcDiscriminant() {
+        return (Math.pow(b, 2) - (4 * a * c));
+    }
+
+    public double getRoot1() {
+        return ((-b + Math.sqrt(calcDiscriminant()))/(2 * a));
+    }
+
+    public double getRoot2() {
+        return ((-b - Math.sqrt(calcDiscriminant()))/(2 * a));
+    }
+
+    public double getLeftSide() {
+        return (-b/(2 * a));
+    }
+
+    public double getRightSide1() {
+        return (- Math.sqrt(-calcDiscriminant())/(2 * a));
+    }
+
+    public double getRightSide2() {
+        return ( Math.sqrt(-calcDiscriminant())/(2 * a));
+    }
+
+}
+
+public class ComplexNumbers {
+    private double d, e, f, g, left, right;
+
+    public ComplexNumbers (double coefD, double coefE, double coefF, double coefG) {
+        d = coefD;
+        e = coefE;
+        f = coefF;
+        g = coefG;
+    }
+
+    public String addition() {
+        left = (double)Math.round((d + f) * 100) /100;
+        right = (double)Math.round((e + g) * 100) /100;
+        return left + "+" + right + "i";
+    }
+
+    public String multiplication() {
+        left = (double)Math.round(((d * f) - (e * g)) * 100) /100;
+        right = (double)Math.round(((d * g) + (e * f)) * 100) /100;
+        return left + "+" + right + "i";
+    }
+
+}
+// Code using in main
+public void runQuadraticTest(){
+        String filename = "txt-files/quadraticArgs.txt";
+        File file = new File(filename);
+        if (file.exists()) {
+            try {
+                FileInputStream fInputStream = new FileInputStream(filename);
+                BufferedReader br = new BufferedReader(new InputStreamReader(fInputStream));
+                String content = null;
+                while ((content = br.readLine()) != null) {
+                    StringTokenizer str = new StringTokenizer(content, ",");
+                    while (str.hasMoreElements()) {
+
+                        double coA = Double.parseDouble(str.nextElement().toString());
+                        double coB = Double.parseDouble(str.nextElement().toString());
+                        double coC = Double.parseDouble(str.nextElement().toString());
+
+                        QuadraticEquation quad = new QuadraticEquation(coA, coB, coC);
+                        double coP, coQ;
+
+                        if (quad.calcDiscriminant() > 0) {
+                            coP = quad.getRoot1();
+                            coQ = quad.getRoot2();
+                            System.out.println("First root is: " + coP);
+                            System.out.println("Second root is: " + coQ);
+                            System.out.println("p + q is: " + (double)Math.round((coP + coQ) * 100) /100);
+                            System.out.println(" -b / a is: " + (double)Math.round(-(quad.b / quad.a) * 100) /100);
+                            System.out.println("pq is: " + (double)Math.round((coP * coQ) * 100) /100);
+                            System.out.println("c/a is: " + (double)Math.round((quad.c / quad.a) * 100) /100);
+                        } else if (quad.calcDiscriminant() == 0) {
+                            coP = quad.getRoot1();
+                            coQ = coP;
+                            System.out.println("Both roots are: " + coP);
+                            System.out.println("p + q is: " + (double)Math.round((coP + coQ) * 100) /100);
+                            System.out.println(" -b / a is: " + (double)Math.round(-(quad.b / quad.a) * 100) /100);
+                            System.out.println("pq is: " + (double)Math.round((coP * coQ) * 100) /100);
+                            System.out.println("c/a is: " + (double)Math.round((quad.c / quad.a) * 100) /100);
+                        } else if (quad.calcDiscriminant() < 0) {
+                            System.out.println("First root is: " + (double) Math.round(quad.getLeftSide() * 100) / 100 +
+                                    " + " + (double) Math.round(quad.getRightSide1() * 100) / 100 + "i");
+                            System.out.println("Second root is: " + (double) Math.round(quad.getLeftSide() * 100) / 100
+                                        + " + " + (double) Math.round(quad.getRightSide2() * 100) / 100 + "i");
+                            ComplexNumbers comp = new ComplexNumbers(quad.getLeftSide(), quad.getRightSide1(),
+                                        quad.getLeftSide(), quad.getRightSide2());
+                            System.out.println("p + q is: " + comp.addition());
+                            System.out.println(" -b / a is: " + (double)Math.round(-(quad.b / quad.a) * 100) /100);
+                            System.out.println("pq is: " + comp.multiplication());
+                            System.out.println("c/a is: " + (double)Math.round((quad.c / quad.a) * 100) /100);
+                        }
+                        System.out.println("");
+                    }
+                }
+                br.close();
+            }
+            catch (FileNotFoundException e) { e.printStackTrace(); }
+            catch (IOException e) { e.printStackTrace(); }
+        }
+    }
+-----
+Test Cases:
+Created comma delimited text file with coefficients A, B, and C separated by commas. Each line in the text file is handled
+ as a separate quadratic equation.
+OUTPUT:
+First root is: -1.0 + -1.41i
+Second root is: -1.0 + 1.41i
+p + q is: -2.0+0.0i
+ -b / a is: -2.0
+pq is: 3.0+0.0i
+c/a is: 3.0
+
+First root is: -0.83 + -1.28i
+Second root is: -0.83 + 1.28i
+p + q is: -1.67+0.0i
+ -b / a is: -1.67
+pq is: 2.33+0.0i
+c/a is: 2.33
+
+First root is: -0.5
+Second root is: -1.0
+p + q is: -1.5
+ -b / a is: -1.5
+pq is: 0.5
+c/a is: 0.5
+
+First root is: -0.33 + -0.19i
+Second root is: -0.33 + 0.19i
+p + q is: -0.66+0.0i
+ -b / a is: -0.66
+pq is: 0.15+0.0i
+c/a is: 0.15
+
+First root is: -0.9 + -0.77i
+Second root is: -0.9 + 0.77i
+p + q is: -1.8+0.0i
+ -b / a is: -1.8
+pq is: 1.4+0.0i
+c/a is: 1.4
+
+First root is: 0.4753049234040402
+Second root is: 2.5246950765959597
+p + q is: 3.0
+ -b / a is: 3.0
+pq is: 1.2
+c/a is: 1.2
+
+First root is: -0.67 + 1.11i
+Second root is: -0.67 + -1.11i
+p + q is: -1.33+0.0i
+ -b / a is: -1.33
+pq is: 1.67+0.0i
+c/a is: 1.67
+
+
+Matrix Report
+	We found the Matrix problem to be fairly straightforward, not requiring anything too complicated as a Matrix is easily
+	translated into a 2 dimensional array. The Matrix class has three private properties, rows, columns and a 2 dimensional
+	array matrix, all of which are ints. We began by creating a basic constructor that accepts values for rows and columns.
+	If a value less than 1 is passed in it will throw an error alerting the user that that is an unacceptable value. It then
+	iterates over each column in each row of the matrix array assigning a random value to it. Our second constructor takes 2 matrices
+	multiplies them together to create a new one. We also have addition and multiplication functions as well. The hardest part was
+	creating a print function for the matrix that looks neat each time, when we have big numbers the boundaries aren’t aligned properly.
+
+// Source Code here
+-------
+public class Matrix {
+
+    private int rows, columns;
+    private int[][] matrix;
+    private Throwable zeroSize = new Throwable("Error: Rows and Columns cannot be less than '1'");
+    // constructor to formulate new matrix
+    Matrix(int rows, int columns) {
+        try {
+            if (rows < 1 || columns < 1) {
+                throw zeroSize;
+            }
+            this.rows = rows;
+            this.columns = columns;
+            matrix = new int[rows][columns];
+
+            for (int rw = 0; rw < rows; rw++) {
+                for (int col = 0; col < columns; col++) {
+                    matrix[rw][col] = (int) Math.floor(Math.random() * 100);
+                }
+            }
+        }
+        catch (Throwable zeroSize) {
+            zeroSize.printStackTrace();
+        }
+
+    }
+
+    // constructor for new matrix by multiplication
+    // of 2 declared matrices
+    Matrix(Matrix first, Matrix second) {
+        if (first.getColumns() == second.getRows()) {
+            this.rows = first.getRows();
+            this.columns = second.getColumns();
+            matrix = new int[first.getRows()][second.getColumns()];
+            for (int col = 0; col < this.getColumns(); col++) {
+                int sum;
+                int commonality = first.getColumns(); // number to handle summation loop
+                for (int rw = 0; rw < this.getRows(); rw++) {
+                    sum = 0;
+                    // summation loop
+                    for (int x = 0; x < commonality; x++) {
+                        sum += first.getValue(rw, x) * second.getValue(x, col);
+                    }
+                    matrix[rw][col] = sum;
+                }
+
+            }
+        } else {
+            System.out.println("Matrices cannot be multiplied");
+        }
+    }
+    public void multiplyMatrix(Matrix multiplier) {
+
+        if (this.columns == multiplier.getRows()) {
+            Matrix tempMatrix = new Matrix(this, multiplier);
+            tempMatrix.printMatrix();
+        } else {
+            System.out.println("Matrices cannot be multiplied");
+        }
+    }
+    public void addMatrix(Matrix second) {
+        if (rows == second.getRows() && columns == second.getColumns()) {
+            for (int rw = 0; rw < rows; rw++) {
+                for (int col = 0; col < columns; col++) {
+                    matrix[rw][col] += second.getValue(rw,col);
+                }
+            }
+        }   else {
+            System.out.println("Cannot add due to: Mismatched sizes");
+        }
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public int getValue(int row, int col) {
+        if (row < 0 || col < 0) {
+            System.out.println("Error: Value does not exist");
+        } else {
+            return matrix[row][col];
+        }
+        return -1;
+    }
+    public void printMatrix() {
+        for (int x = 0; x <= columns; x++) {
+            System.out.print("\t___");
+            if (x == columns) { System.out.print('\n'); }
+        }
+        for (int r = 0; r < rows; r++) {
+            System.out.print("| ");
+            for (int c = 0; c < columns; c++) {
+                System.out.print(matrix[r][c] + "\t");
+            }
+            System.out.print(" \t|\n");
+        }
+            for (int x = 0; x <= columns; x++) {
+                System.out.print("\t___");
+                if (x == columns) { System.out.print('\n'); }
+        }
+    }
+
+
+
+
+}
+// Code Using class in Main
+public void runAutoMatrixTest(){
+        System.out.print("\nMatrices \n");
+        Matrix firstMatrix = new Matrix(6, 3);
+        Matrix secondMatrix = new Matrix(3, 5);
+        Matrix thirdMatrix = new Matrix(6,3);
+        System.out.print("MATRIX 1: \n");
+        firstMatrix.printMatrix();
+        System.out.print("MATRIX 2: \n");
+        secondMatrix.printMatrix();
+        System.out.print("MATRIX 3: \n");
+        thirdMatrix.printMatrix();
+        System.out.println("Addition");
+        System.out.println("Matrix 1 dimensions " + firstMatrix.getRows() + "x" + firstMatrix.getColumns() + ", Matrix 2
+                dimensions " + secondMatrix.getRows() + "x" + secondMatrix.getColumns() + ":");
+        firstMatrix.addMatrix(secondMatrix);
+        System.out.println("Matrix 1 dimensions " + firstMatrix.getRows() + "x" + firstMatrix.getColumns() + ", Matrix 3
+                dimensions " + thirdMatrix.getRows() + "x" + thirdMatrix.getColumns() + ":");
+        firstMatrix.addMatrix(thirdMatrix);
+        firstMatrix.printMatrix();
+        System.out.println("Multiplication");
+        Matrix multipleMatrix = new Matrix(firstMatrix, secondMatrix);
+        System.out.println("Multiplied matrix 1 and 2 made with constructor:");
+        System.out.println("Matrix 1 dimensions " + firstMatrix.getRows() + "x" + firstMatrix.getColumns() + ", Matrix 2
+                    dimensions " + secondMatrix.getRows() + "x" + secondMatrix.getColumns() + ":");
+        multipleMatrix.printMatrix();
+        System.out.println("Matrix 1 dimensions " + firstMatrix.getRows() + "x" + firstMatrix.getColumns() + ", Matrix 3
+                    dimensions " + thirdMatrix.getRows() + "x" + thirdMatrix.getColumns() + ":");
+        firstMatrix.multiplyMatrix(thirdMatrix);
+    }
+-----------
+Test cases:
+    Create a new matrix,
+    add two matrices,
+    add two matrices that cannot be added,
+    multiply two matrices to create a NEW matrix,
+    multiply a matrix to see its product
+    Multiply two matrices you CANNOT multiply
+
+Matrices
+MATRIX 1:
+	___	___	___	___
+| 73	64	63	 	|
+| 27	32	87	 	|
+| 8	22	19	 	|
+| 0	73	62	 	|
+| 70	88	79	 	|
+| 14	68	73	 	|
+	___	___	___	___
+MATRIX 2:
+	___	___	___	___	___	___
+| 26	67	51	94	87	 	|
+| 99	15	38	2	89	 	|
+| 36	59	9	56	91	 	|
+	___	___	___	___	___	___
+MATRIX 3:
+	___	___	___	___
+| 72	18	77	 	|
+| 14	68	83	 	|
+| 89	73	60	 	|
+| 88	8	13	 	|
+| 50	6	8	 	|
+| 50	50	64	 	|
+	___	___	___	___
+Addition
+Matrix 1 dimensions 6x3, Matrix 2 dimensions 3x5:
+Cannot add due to: Mismatched sizes
+Matrix 1 dimensions 6x3, Matrix 3 dimensions 6x3:
+	___	___	___	___
+| 145	82	140	 	|
+| 41	100	170	 	|
+| 97	95	79	 	|
+| 88	81	75	 	|
+| 120	94	87	 	|
+| 64	118	137	 	|
+	___	___	___	___
+Multiplication
+Multiplied matrix 1 and 2 made with constructor:
+Matrix 1 dimensions 6x3, Matrix 2 dimensions 3x5:
+	___	___	___	___	___	___
+| 16928	19205	11771	21634	32653	 	|
+| 17086	14277	7421	13574	27937	 	|
+| 14771	12585	9268	13732	24083	 	|
+| 13007	11536	8241	12634	21690	 	|
+| 15558	14583	10475	16340	26723	 	|
+| 18278	14141	8981	13924	28537	 	|
+	___	___	___	___	___	___
+Matrix 1 dimensions 6x3, Matrix 3 dimensions 6x3:
+	___	___	___	___
+| 72	18	77	 	|
+| 14	68	83	 	|
+| 89	73	60	 	|
+| 88	8	13	 	|
+| 50	6	8	 	|
+| 50	50	64	 	|
+	___	___	___	___
+Matrices cannot be multiplied
+
+Quicksort Report
+	Quicksort implementation was simple enough. We have an array of any size with numbers. We take that array and find a
+	split index point to put all values less than that below, and all above it above in a recursive function. It is important
+	to get the split index first or the algorithm won’t work. The recursive calls will consistently make functions of n / 2
+	size until the array is sorted.
+
+    We don’t have any variations because we could not improve it with any original code. Anything we came up with, setting a
+    middle value first, trying to set high and low values initially to make the search indexes shorter. Only added extra steps
+    and made the sort slower.
+
+// Source code
+------
+public class QuickSort {
+
+//    pivot = Value of index to be moved
+//    low = index of lower bound in split array
+//    high = index of higher bound in split array
+//    splitIndex = index of middle value to split array into greater and lesser around
+
+//    TODO we need to say something about how we can make this better...
+    public void sortThis(int array[]) {
+        if (array.length > 0) {
+            quickSort(array, 0, array.length - 1);
+        }
+    }
+
+    private void quickSort(int array[],int low, int high) {
+        if (low < high) {
+            int splitIndex = split(array, low, high);
+            quickSort(array, low, splitIndex - 1);
+            quickSort(array, splitIndex + 1, high);
+        }
+    }
+
+    private int split(int array[], int low, int high){
+        int pivot = array[high];
+        int bottomIndex = (low - 1);
+
+        for (int x = low; x < high; x++) {
+
+            if (array[x] <= pivot) {
+                bottomIndex++;
+                int temp = array[bottomIndex];
+                array[bottomIndex] = array[x];
+                array[x] = temp;
+            }
+        }
+
+        int temp = array[bottomIndex + 1];
+        array[bottomIndex + 1] = array[high];
+        array[high] = temp;
+
+        return bottomIndex + 1;
+    }
+}
+
+// Code using class in Main
+public void runAutoSortTest(){
+        QuickSort sorter = new QuickSort();
+        int[] controlledArray = {8,4,1,8,5,7,3,10,5,3};
+        int[] randomArray = new int[(int) Math.floor(Math.random() * 101)];
+
+        for (int x = 0; x < randomArray.length; x++) {
+            randomArray[x] = (int) Math.floor(Math.random() * 101);
+        }
+        System.out.print("Quicksort\n");
+        System.out.print("Controlled Array Unsorted: " + controlledArray[0]);
+        for (int x = 1; x < controlledArray.length; x++) {
+            System.out.print(", " + controlledArray[x]);
+        }
+        sorter.sortThis(controlledArray);
+        System.out.print("\nPost: " + controlledArray[0]);
+        for (int x = 1; x < controlledArray.length; x++) {
+            System.out.print(", " + controlledArray[x]);
+        }
+
+
+        System.out.print("\nRandom Array Unsorted: " + randomArray[0]);
+        for (int x = 1; x < randomArray.length; x++) {
+            System.out.print(", " + randomArray[x]);
+        }
+        sorter.sortThis(randomArray);
+        System.out.print("\nPost:\t\t " + randomArray[0]);
+        for (int x = 1; x < randomArray.length; x++) {
+            System.out.print(", " + randomArray[x]);
+        }
+    }
+-------
+Test Cases:
+Controlled array of size 10 {8,4,1,8,5,7,3,10,5,3}
+Array of 20 size with random numbers
+OUTPUT:
+Quicksort
+Controlled Array Unsorted: 8, 4, 1, 8, 5, 7, 3, 10, 5, 3
+Post: 1, 3, 3, 4, 5, 5, 7, 8, 8, 10
+Random Array Unsorted: 13, 95, 10, 22, 38, 21, 50, 58, 5, 66, 84, 19, 68, 92, 6, 30
+Post:		 5, 6, 10, 13, 19, 21, 22, 30, 38, 50, 58, 66, 68, 84, 92, 95
+
+
+
+Binary Strings and numbers Report
+    We created a class called NumberTool to handle this. Using a public binaryPrint function that accepts an int greater than
+    zero it then calls a private function called binary twice, once where the character in index 0 is 1, and another where it
+    is 0. This function takes the size, a string, and point. The point is current index and it is used to check the previous
+    number and places the opposite and then calls binary again.
+	For printing n digits we made a strictPrint function that accepts a size for number of digits places and then calls
+	another printNum function that has 3 parameters, a start point which is first 0, an empty string to add to, and a
+	limit which is the size we received previously. As long as the limit isn’t zero, it will call itself recursively,
+	each call looping over the start size, with each iteration calling itself with an incremented start size and a
+	decremented limit.
+
+// Source Code
+--------
+public class NumberTool {
+    public void strictPrint(int size) {
+        printNum(0, " ", size);
+    }
+
+
+    public void binaryPrint(int size) {
+
+        if (size <= 0) {
+            return;
+        }
+
+        char[] string = new char[size];
+        string[0] = '0';
+        binary(size, string, 1);
+        string[0] = '1';
+        binary(size, string , 1);
+    }
+
+    private void binary(int size, char[] currentString, int point) {
+        if (size == point) {
+            System.out.print(currentString);
+            System.out.print(" ");
+            return;
+        }
+
+        if (currentString[point - 1] == '1') {
+            currentString[point] = '0';
+            binary(size, currentString, point + 1);
+        }
+
+        if (currentString[point -1] == '0') {
+            currentString[point] = '0';
+            binary(size, currentString, point + 1);
+            currentString[point] = '1';
+            binary(size, currentString, point + 1);
+
+        }
+    }
+
+    private void printNum(int start, String currentString, int limit ) {
+        if(limit == 0) {
+            System.out.print(currentString);
+            return;
+        }
+
+        for (int x = start; x <= 9; x++) {
+            String newString = currentString + x;
+            printNum(x + 1, newString, limit - 1);
+        }
+    }
+
+
+}
+// Code using number tool in main
+public void runAutoNumberToolTest(){
+        // number tool
+        NumberTool tool = new NumberTool();
+        System.out.println("Strict Print");
+        System.out.println("Size = 1");
+        tool.strictPrint(1);
+        System.out.println("\nSize = 2");
+        tool.strictPrint(2);
+        System.out.println("\nSize = 3");
+        tool.strictPrint(3);
+        System.out.println("\nBinary Print");
+        System.out.println("Size = 3");
+        tool.binaryPrint(3);
+        System.out.println("\nSize = 4");
+        tool.binaryPrint(4);
+        System.out.println("\nSize = 5");
+        tool.binaryPrint(5);
+    }
+--------
+Test Cases:
+Sizes for strict print 1, 2, 3
+Sizes for Binary print, 3, 4, 5
+OUTPUT:
+Strict Print
+Size = 1
+ 0 1 2 3 4 5 6 7 8 9
+Size = 2
+ 01 02 03 04 05 06 07 08 09 12 13 14 15 16 17 18 19 23 24 25 26 27 28 29 34 35 36 37 38 39 45 46 47 48 49 56 57 58 59 67 68 69 78 79 89
+Size = 3
+    012 013 014 015 016 017 018 019 023 024 025 026 027 028 029 034 035 036 037 038 039 045 046 047 048 049 056 057 058 059 067 068 069
+    078 079 089 123 124 125 126 127 128 129 134 135 136 137 138 139 145 146 147 148 149 156 157 158 159 167 168 169 178 179 189 234 235
+    236 237 238 239 245 246 247 248 249 256 257 258 259 267 268 269 278 279 289 345 346 347 348 349 356 357 358 359 367 368 369 378 379
+    389 456 457 458 459 467 468 469 478 479 489 567 568 569 578 579 589 678 679 689 789
+Binary Print
+Size = 3
+000 001 010 100 101
+Size = 4
+0000 0001 0010 0100 0101 1000 1001 1010
+Size = 5
+00000 00001 00010 00100 00101 01000 01001 01010 10000 10001 10010 10100 10101
+
+
+
+Dictionary Report
+	For this we created a LinkedList extension of type Definition. Defintion in a class that contains a name, and an array
+	of definitions for that name. Since we are thinking in OOP terms we did not include any sort of file IO in the class,
+	instead choosing to keep that in the main to allow reusability of the class. We have 2 custom methods in our Dictionary
+	class. definitionIndex is a private function that iterates through the list and checks for a truthy against the name of
+	each definition object. We had to do it this way since we are using our own ADT for this LinkedList. The query function
+	will than call this definitionIndex function and as long as it isn’t -1 it will create a temporary object using LinkedList
+	get function and then iterate over each definition to the user.
+
+// Source Code
+---------
+import java.util.LinkedList;
+
+public class Dictionary extends LinkedList<Definition> {
+    public void query(String query) {
+        int i = definitionIndex(query);
+        if (i != -1) {
+            Definition queryObject = get(i);
+            System.out.println(query + " definitons:");
+            for (int x = 0; x < queryObject.definitions.length; x++){
+                System.out.println("\t" + queryObject.definitions[x]);
+            }
+        } else {
+            System.out.println("Sorry, '" + query + "' not found.");
+        }
+    }
+
+    private int definitionIndex(String query) {
+        Definition temp;
+        for (int x = 0; x < size(); x++) {
+            temp = get(x);
+            if (temp.name.equals(query)) {
+                return x;
+            }
+        }
+        return -1;
+    }
+
+}
+public class Definition {
+    String name;
+    String[] definitions;
+
+    Definition(String name, String[] definitions) {
+        this.name = name;
+        this.definitions = definitions;
+    }
+}
+
+// Code using Dictionary in main
+public void runDictionaryTest() throws IOException {
+        FileReader reader = null;
+        Dictionary dictionary = new Dictionary();
+        try {
+            reader = new FileReader("txt-files/dictionary.txt");
+            int x;
+            String fileString = "";
+            String nameString = "";
+            String[] defs = new String[2];
+            Definition definition;
+            System.out.println("Reading File...");
+            while ((x = reader.read()) != -1) {
+                switch (x) {
+                    case 10:    // new line
+                        defs[1] = fileString;
+                        definition = new Definition(nameString, defs.clone());
+                        dictionary.add(definition);
+                        fileString = "";
+                        break;
+                    case 44:    // comma
+                        defs[0] = fileString;
+                        fileString = "";
+                        break;
+                    case 61:    // equals sign
+                        nameString = fileString;
+                        fileString = "";
+                        break;
+                    case 62:    // greater than symbol, do nothing
+                        break;
+                    default:
+                        fileString += (char) x;
+                        break;
+                }
+            }
+            System.out.print("Success\n");
+        } catch(IOException error) {
+            System.out.println("Error reading file");
+        }
+        finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
+        // Normally we would convert the query to fit our format but the tool for that is not found in util package
+        System.out.println("Please type a definition to query. Note dictionary is case sensitive and all Definitions begin with a capital. Enter 'Quit' to end.");
+        Scanner scanner = new Scanner(System.in);
+        String name = "";
+        while(!name.equals("Quit")) {
+            name = scanner.nextLine();
+            dictionary.query(name);
+            System.out.println("Please type a definition to query. Enter 'Quit' to end.");
+        }
+    }
+--------
+
+Test Cases:
+Definition not found
+User input for 3 definitions
+
+OUTPUT:
+Reading File...
+Success
+Please type a definition to query. Note dictionary is case sensitive and all Definitions begin with a capital. Enter 'Quit' to end.
+Java
+Java definitons:
+	Drink
+	CS Language
+Please type a definition to query. Enter 'Quit' to end.
+Isis
+Isis definitons:
+	Egyptian goddess
+	Terrorist group
+Please type a definition to query. Enter 'Quit' to end.
+Mug
+Mug definitons:
+	Container
+	To steal
+Please type a definition to query. Enter 'Quit' to end.
+Gearhead
+Sorry, 'Gearhead' not found.
+Please type a definition to query. Enter 'Quit' to end.
+Quit
+

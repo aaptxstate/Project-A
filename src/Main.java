@@ -129,7 +129,7 @@ public class Main {
             userMatrix2 = new Matrix(userRows2, userCols2);
             userMatrix1.printMatrix();
             userMatrix2.printMatrix();
-            System.out.println("This be that new mult");
+            System.out.println("This is the new multiplied matrix");
             userMatrix1.multiplyMatrix(userMatrix2);
         } catch (Exception x) {
             System.out.println("Error: Please enter only numbers");
@@ -143,45 +143,73 @@ public class Main {
         System.out.print("\nMatrices \n");
         Matrix firstMatrix = new Matrix(6, 3);
         Matrix secondMatrix = new Matrix(3, 5);
+        Matrix thirdMatrix = new Matrix(6,3);
         System.out.print("MATRIX 1: \n");
         firstMatrix.printMatrix();
         System.out.print("MATRIX 2: \n");
         secondMatrix.printMatrix();
-        System.out.print("MATRIX 1 post addition: \n");
+        System.out.print("MATRIX 3: \n");
+        thirdMatrix.printMatrix();
+        System.out.println("Addition");
+        System.out.println("Matrix 1 dimensions " + firstMatrix.getRows() + "x" + firstMatrix.getColumns() + ", Matrix 2 dimensions " + secondMatrix.getRows() + "x" + secondMatrix.getColumns() + ":");
         firstMatrix.addMatrix(secondMatrix);
+        System.out.println("Matrix 1 dimensions " + firstMatrix.getRows() + "x" + firstMatrix.getColumns() + ", Matrix 3 dimensions " + thirdMatrix.getRows() + "x" + thirdMatrix.getColumns() + ":");
+        firstMatrix.addMatrix(thirdMatrix);
         firstMatrix.printMatrix();
-
+        System.out.println("Multiplication");
         Matrix multipleMatrix = new Matrix(firstMatrix, secondMatrix);
-        System.out.print("MULTIPLIED MATRIX: \n");
+        System.out.println("Multiplied matrix 1 and 2 made with constructor:");
+        System.out.println("Matrix 1 dimensions " + firstMatrix.getRows() + "x" + firstMatrix.getColumns() + ", Matrix 2 dimensions " + secondMatrix.getRows() + "x" + secondMatrix.getColumns() + ":");
         multipleMatrix.printMatrix();
+        System.out.println("Matrix 1 dimensions " + firstMatrix.getRows() + "x" + firstMatrix.getColumns() + ", Matrix 3 dimensions " + thirdMatrix.getRows() + "x" + thirdMatrix.getColumns() + ":");
+        firstMatrix.multiplyMatrix(thirdMatrix);
     }
     public void runAutoSortTest(){
         QuickSort sorter = new QuickSort();
-        int[] myArray = new int[(int) Math.floor(Math.random() * 101)];
+        int[] controlledArray = {8,4,1,8,5,7,3,10,5,3};
+        int[] randomArray = new int[(int) Math.floor(Math.random() * 101)];
 
-        for (int x = 0; x < myArray.length; x++) {
-            myArray[x] = (int) Math.floor(Math.random() * 101);
+        for (int x = 0; x < randomArray.length; x++) {
+            randomArray[x] = (int) Math.floor(Math.random() * 101);
         }
         System.out.print("Quicksort\n");
-        System.out.print("Pre: " + myArray[0]);
-        for (int x = 1; x < myArray.length; x++) {
-            System.out.print(", " + myArray[x]);
+        System.out.print("Controlled Array Unsorted: " + controlledArray[0]);
+        for (int x = 1; x < controlledArray.length; x++) {
+            System.out.print(", " + controlledArray[x]);
+        }
+        sorter.sortThis(controlledArray);
+        System.out.print("\nPost: " + controlledArray[0]);
+        for (int x = 1; x < controlledArray.length; x++) {
+            System.out.print(", " + controlledArray[x]);
         }
 
-        sorter.sortThis(myArray);
 
-
-        System.out.print("\nPost: " + myArray[0]);
-        for (int x = 1; x < myArray.length; x++) {
-            System.out.print(", " + myArray[x]);
+        System.out.print("\nRandom Array Unsorted: " + randomArray[0]);
+        for (int x = 1; x < randomArray.length; x++) {
+            System.out.print(", " + randomArray[x]);
+        }
+        sorter.sortThis(randomArray);
+        System.out.print("\nPost:\t\t " + randomArray[0]);
+        for (int x = 1; x < randomArray.length; x++) {
+            System.out.print(", " + randomArray[x]);
         }
     }
     public void runAutoNumberToolTest(){
         // number tool
         NumberTool tool = new NumberTool();
-        System.out.print("Strict Print\n");
+        System.out.println("Strict Print");
+        System.out.println("Size = 1");
+        tool.strictPrint(1);
+        System.out.println("\nSize = 2");
         tool.strictPrint(2);
-        System.out.print("\nBinary Print\n");
+        System.out.println("\nSize = 3");
+        tool.strictPrint(3);
+        System.out.println("\nBinary Print");
+        System.out.println("Size = 3");
+        tool.binaryPrint(3);
+        System.out.println("\nSize = 4");
+        tool.binaryPrint(4);
+        System.out.println("\nSize = 5");
         tool.binaryPrint(5);
     }
 
@@ -199,7 +227,7 @@ public class Main {
                 switch (x) {
                     case 10:    // new line
                         defs[1] = fileString;
-                        definition = new Definition(nameString, defs);
+                        definition = new Definition(nameString, defs.clone());
                         dictionary.add(definition);
                         fileString = "";
                         break;
@@ -219,7 +247,7 @@ public class Main {
                 }
             }
         } catch(IOException error) {
-            System.out.print("\nidk why " + error + " happened");
+            System.out.print("Error Reading FIle");
         }
         finally {
             if (reader != null) {
@@ -228,7 +256,7 @@ public class Main {
         }
 
         String[] names = {"Java", "Iron", "Pork","Bull","Mug","Monitor","Flavor","Textbook","Isis","Drumstick"};
-        for (int x = 0; x < 9; x++) {
+        for (int x = 0; x <= 9; x++) {
             dictionary.query(names[x]);
         }
     }
@@ -243,11 +271,12 @@ public class Main {
             String nameString = "";
             String[] defs = new String[2];
             Definition definition;
+            System.out.println("Reading File...");
             while ((x = reader.read()) != -1) {
                 switch (x) {
                     case 10:    // new line
                         defs[1] = fileString;
-                        definition = new Definition(nameString, defs);
+                        definition = new Definition(nameString, defs.clone());
                         dictionary.add(definition);
                         fileString = "";
                         break;
@@ -266,8 +295,9 @@ public class Main {
                         break;
                 }
             }
+            System.out.print("Success\n");
         } catch(IOException error) {
-            System.out.println("idk why " + error + " happened");
+            System.out.println("Error reading file");
         }
         finally {
             if (reader != null) {

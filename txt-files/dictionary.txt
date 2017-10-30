@@ -5,6 +5,6 @@ Bull=>Cow,A false statement
 Mug=>Container,To steal
 Monitor=>Screen,A supervisor
 Flavor=>Type of taste,Style
-Textbook=>Book,Precise 
+Textbook=>Book,Precise
 Isis=>Egyptian goddess,Terrorist group
 Drumstick=>Instrument,Ice-Cream
